@@ -256,7 +256,6 @@ namespace OOP5
             }
         }
 
-
         internal void ShowBooksYears()
         {
             Menu menu = new();
