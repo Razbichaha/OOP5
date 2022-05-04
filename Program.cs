@@ -26,7 +26,7 @@ namespace OOP5
                         break;
                     case "удалить":
 
-                        menu.DeletePlayer();
+                        menu.DeleteBook();
 
                         break;
                     case "показать как":
@@ -100,7 +100,7 @@ namespace OOP5
             }
         }
 
-        internal void DeletePlayer()
+        internal void DeleteBook()
         {
             Console.Write("Выберите номер книги которую хотите удалить - ");
             string keyString = Console.ReadLine();
