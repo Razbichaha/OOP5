@@ -19,22 +19,22 @@ namespace OOP5
 
                 switch (userInput)
                 {
-                    case "д":
+                    case "добавить":
 
                         menu.AddBook();
 
                         break;
-                    case "у":
+                    case "удалить":
 
                         menu.DeletePlayer();
 
                         break;
-                    case "пр":
+                    case "показать как":
 
                         menu.ShowBooksByParameters();
 
                         break;
-                    case "п":
+                    case "показать":
 
                         menu.ShowBooks();
 
@@ -57,10 +57,10 @@ namespace OOP5
         {
             Console.Clear();
             Console.WriteLine("Присутствуют следующие команды");
-            Console.WriteLine("Добавить книгу - д");
-            Console.WriteLine("Удалить книгу - у");
-            Console.WriteLine("Список книг по параметру - пр");
-            Console.WriteLine("Список всех книг - п");
+            Console.WriteLine("Добавить книгу - добавить");
+            Console.WriteLine("Удалить книгу - удалить");
+            Console.WriteLine("Список книг по параметру - показать как");
+            Console.WriteLine("Список всех книг - показать");
         }
 
         internal void OutputWarning()
@@ -124,25 +124,25 @@ namespace OOP5
         internal void ShowBooksByParameters()
         {
             Console.WriteLine("Выберите параметр по которому выбрать книги");
-            Console.WriteLine("По автору - а");
-            Console.WriteLine("По названию - н");
-            Console.WriteLine("По году выпуска - г");
+            Console.WriteLine("По автору - автор");
+            Console.WriteLine("По названию - название");
+            Console.WriteLine("По году выпуска - год");
 
             string userInput = Console.ReadLine();
 
             switch (userInput)
             {
-                case "а":
+                case "автор":
 
                     _dataBaseManagement.ShowBooksAutor();
 
                     break;
-                case "н":
+                case "название":
 
                     _dataBaseManagement.ShowBooksTitle();
 
                     break;
-                case "г":
+                case "год":
 
                     _dataBaseManagement.ShowBooksYears();
 
