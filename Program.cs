@@ -3,18 +3,12 @@ using System.Collections.Generic;
 
 namespace OOP5
 {
-    //    Создать хранилище книг.
-    //Каждая книга имеет название, автора и год выпуска(можно добавить еще параметры).
-    //В хранилище можно добавить книгу, убрать книгу, показать все книги и
-    //показать книги по указанному параметру(по названию, по автору, по году выпуска).
-
-
-
     class Program
     {
+
+
         static void Main(string[] args)
         {
-            
             Menu menu = new Menu();
 
             menu.OutputHeader();
@@ -34,17 +28,17 @@ namespace OOP5
                         break;
                     case "у":
 
-                      //  databaseManagement.DeletePlayer();
+                        menu.DeletePlayer();
 
                         break;
                     case "пр":
 
-                     //   databaseManagement.UnBanPlaer();
+                        menu.ShowBooksByParameters();
 
                         break;
                     case "п":
 
-                      //  databaseManagement.ShowBasePlayer();
+                        menu.ShowBooks();
 
                         break;
                     default:
@@ -59,10 +53,11 @@ namespace OOP5
 
     class Menu
     {
-        private DataBaseManagement _dataBaseManagement = new DataBaseManagement();
+        DataBaseManagement _dataBaseManagement = new();
 
         internal void OutputHeader()
         {
+            Console.Clear();
             Console.WriteLine("Присутствуют следующие команды");
             Console.WriteLine("Добавить книгу - д");
             Console.WriteLine("Удалить книгу - у");
@@ -72,7 +67,16 @@ namespace OOP5
 
         internal void OutputWarning()
         {
-            Console.WriteLine("Введены не верные параметры");
+            Console.WriteLine("Введены не верные параметры попробуйте с начала");
+        }
+
+        internal void OutputWarning(int number)
+        {
+            Console.WriteLine("Введенный номер " + number + " книги отсутствует");
+        }
+        internal void OutputWarning(string text)
+        {
+            Console.WriteLine("Книг " + text + " не существует");
         }
 
         internal void AddBook()
@@ -85,22 +89,90 @@ namespace OOP5
             string genreBook = Console.ReadLine();
             Console.Write("Введите год выпуска книги - ");
             string yearPublikationBook = Console.ReadLine();
-            int year=0;
+            int year = 0;
 
-            if(IsNumber(yearPublikationBook,ref year))
+            if (IsNumber(yearPublikationBook, ref year))
             {
                 _dataBaseManagement.AddBook(autorBook, titleBook, genreBook, year);
-            }else
+            }
+            else
             {
                 OutputWarning();
             }
         }
 
-        internal bool IsNumber(string text,ref int number)
+        internal void DeletePlayer()
+        {
+            Console.Write("Выберите номер книги которую хотите удалить - ");
+            string keyString = Console.ReadLine();
+            int key = 0;
+
+            if (IsNumber(keyString, ref key))
+            {
+                _dataBaseManagement.DeletePlayer(key);
+            }
+            else
+            {
+                OutputWarning();
+            }
+        }
+
+        internal bool IsNumber(string text, ref int number)
         {
             bool isNumber = int.TryParse(text, out number);
 
             return isNumber;
+        }
+
+        internal void ShowBooks()
+        {
+            _dataBaseManagement.ShowBooks();
+        }
+
+        internal void ShowBooksByParameters()
+        {
+            Console.WriteLine("Выберите параметр по которому выбрать книги");
+            Console.WriteLine("По автору - а");
+            Console.WriteLine("По названию - н");
+            Console.WriteLine("По году выпуска - г");
+
+            string userInput = Console.ReadLine();
+
+            switch (userInput)
+            {
+                case "а":
+                    Console.Write("Выберите название книги - ");
+                    userInput = Console.ReadLine();
+                    _dataBaseManagement.ShowBooksAutor(userInput);
+
+                    break;
+                case "н":
+
+                    Console.Write("Выберите автора - ");
+                    userInput = Console.ReadLine();
+                    _dataBaseManagement.ShowBooksName(userInput);
+
+                    break;
+                case "г":
+                    Console.Write("Выберите год издания - ");
+                    userInput = Console.ReadLine();
+                    int year=0;
+
+                    if (IsNumber(userInput,ref year))
+                    {
+                        _dataBaseManagement.ShowBooksYears(year);
+
+                    }else
+                    {
+                        OutputWarning();
+                    }
+                    break;
+                default:
+
+                    OutputWarning();
+
+                    break;
+            }
         }
     }
 
@@ -108,81 +180,21 @@ namespace OOP5
     {
 
         private List<Book> _books = new List<Book>();
-        private Menu _menu = new Menu();
-
-        //public void UnBanPlaer()
-        //{
-        //    Console.WriteLine("Введите номер разблокированного игрока ");
-
-        //    string keyString = Console.ReadLine();
-
-        //    if (int.TryParse(keyString, out int key))
-        //    {
-        //        if (_dataBase.UnBannedPlayer(key) == false)
-        //        {
-        //            Console.WriteLine("Введенный номер игрока отсутствует");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Введенный номер не является числом");
-        //    }
-
-        //    ShowBasePlayer();
-        //}
-
-        //public void BanPlaer()
-        //{
-        //    Console.WriteLine("Введите номер заблокированного игрока ");
-
-        //    string keyString = Console.ReadLine();
-
-        //    if (int.TryParse(keyString, out int key))
-        //    {
-        //        if (_dataBase.IsBannedPlayer(key) == false)
-        //        {
-        //            Console.WriteLine("Введенный номер игрока отсутствует");
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Введенный номер не является числом");
-        //    }
-
-        //    ShowBasePlayer();
-        //}
-
-        
-
-        //public void DeletePlayer()
-        //{
-        //    Console.WriteLine("Введите номер удаляемого игрока");
-
-        //    string keyString = Console.ReadLine();
-
-        //    if (int.TryParse(keyString, out int key))
-        //    {
-        //        _dataBase.DeletePlayer(key);
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Введенный номер не является числом");
-        //    }
-
-        //    ShowBasePlayer();
-        //}
 
         internal void AddBook(string autorBook, string titleBook, string genreBook, int yearPublikationBook)
         {
-            Book book = new Book(autorBook,titleBook,genreBook,yearPublikationBook);
+            Book book = new Book(autorBook, titleBook, genreBook, yearPublikationBook);
 
             _books.Add(book);
             ShowBooks();
         }
+
         internal void ShowBooks()
         {
+            Menu menu = new();
+
             Console.Clear();
-            _menu.OutputHeader();
+            menu.OutputHeader();
 
             int length = _books.Count;
 
@@ -191,37 +203,136 @@ namespace OOP5
                 Book book = _books[i];
                 Console.WriteLine("Номер - " + i + " | " + book.Show());
             }
-            //Console.WriteLine("");
+            Console.Write("\n");
+        }
+        internal void ShowBooks(List<Book> books)
+        {
+            Menu menu = new();
 
+            Console.Clear();
+            menu.OutputHeader();
+
+            int length = books.Count;
+
+            for (int i = 0; i < length; i++)
+            {
+                Book book = books[i];
+                Console.WriteLine("Номер - " + i + " | " + book.Show());
+            }
+            Console.Write("\n");
         }
 
+        internal void ShowBooksName(string title)
+        {
+            List<Book> booksTitle = new();
+
+            foreach (var item in _books)
+            {
+                if (item.Title==title)
+                {
+                    booksTitle.Add(item);
+                }
+            }
+
+            if ( booksTitle.Count > 0)
+            {
+                ShowBooks(booksTitle);
+            }
+            else
+            {
+                Menu menu = new();
+                title = "c названием " + title;
+                menu.OutputWarning(title);
+            }
+        }
+
+        internal void ShowBooksAutor(string autor)
+        {
+            List<Book> booksTitle = new();
+
+            foreach (var item in _books)
+            {
+                if (item.Author == autor)
+                {
+                    booksTitle.Add(item);
+                }
+            }
+
+            if (booksTitle.Count > 0)
+            {
+                ShowBooks(booksTitle);
+            }
+            else
+            {
+                Menu menu = new();
+                autor = "c названием " + autor;
+                menu.OutputWarning(autor);
+            }
+        }
+
+        internal void ShowBooksYears(int yearPublikation)
+        {
+            List<Book> booksTitle = new();
+
+            foreach (var item in _books)
+            {
+                if (item.YearPublikation == yearPublikation)
+                {
+                    booksTitle.Add(item);
+                }
+            }
+
+            if (booksTitle.Count > 0)
+            {
+                ShowBooks(booksTitle);
+            }
+            else
+            {
+                Menu menu = new();
+              string  text = "c годом выпуска " + yearPublikation;
+                menu.OutputWarning(text);
+            }
+        }
+
+        internal void DeletePlayer(int key)
+        {
+            if (_books.Count >= key)
+            {
+                _books.RemoveAt(key);
+                ShowBooks();
+            }
+            else
+            {
+                Menu menu = new();
+                menu.OutputWarning(key);
+            }
+        }
     }
 
     class Book
-    {
-        private string _author;
-        private string _title;
-        private string _genre;
-        private int _yearPublikation;
+    { 
         private int _closingPageBook;
         private int _startPageBook = 1;
 
-        
+        internal string Author { get; private set; }
+        internal string Title { get; private set; }
+        internal string Genre { get; private set; }
+        internal int YearPublikation { get; private set; }
+
         public Book(string author, string title, string genre, int yearPublikation)
         {
-            _author = author;
-            _title = title;
-            _genre = genre;
-            _yearPublikation = yearPublikation;
+            Author = author;
+            Title = title;
+            Genre = genre;
+            YearPublikation = yearPublikation;
             _closingPageBook = _startPageBook;
         }
 
         internal string Show()
         {
-            string informationAboutBook = "Автор - " + _author + "  Название - " + _title + "  Жанр - " + _genre +
-                                         "  Год публикации - " + _yearPublikation + "  Закрыта на странице - " + _closingPageBook;
+            string informationAboutBook = "Автор - " + Author + "  Название - " + Title + "  Жанр - " + Genre +
+                                         "  Год публикации - " + YearPublikation + "  Закрыта на странице - " + _closingPageBook;
             return informationAboutBook;
         }
-
     }
 }
